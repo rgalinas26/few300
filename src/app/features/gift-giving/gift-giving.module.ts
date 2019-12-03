@@ -10,6 +10,7 @@ import { HolidayEntrysComponent } from './containers/holidays/holiday-entrys/hol
 import { HolidayListComponent } from './containers/holidays/holiday-list/holiday-list.component';
 import { StoreModule } from '@ngrx/store';
 import { featureName, reducers } from './reducers';
+import { HolidayListControlsComponent } from './containers/holidays/holiday-list-controls/holiday-list-controls.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [GiftGivingComponent, NavComponent, DashboardComponent, RecipientsComponent, HolidaysComponent, HolidayEntrysComponent, HolidayListComponent],
+  declarations: [GiftGivingComponent, NavComponent, DashboardComponent, RecipientsComponent, HolidaysComponent, HolidayEntrysComponent, HolidayListComponent, HolidayListControlsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
