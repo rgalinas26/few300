@@ -19,7 +19,8 @@ const initialState = adapter.getInitialState();
 
 const reducerFunction = createReducer(
   initialState,
-  on(actions.recipientAdded, (state, action) => adapter.addOne(action.payload, state))
+  on(actions.recipientAdded, (state, action) => adapter.addOne(action.payload, state)),
+  on(actions.loadRecipientsSuccessful, (state, action) => adapter.addAll(action.payload, state))
 );
 
 export function reducer(state: RecipientsState = initialState, action: Action) {
