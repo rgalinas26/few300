@@ -153,7 +153,7 @@ export const selectDashboardModel = createSelector(
     const futureHolidays = [...holidays.holidays.filter(holiday => new Date(holiday.date) >= currentDate)
       .sort((x, y) => {
         if (new Date(x.date) > new Date(y.date)) { return 1; }
-        if (new Date(x.date) < new Date(y.date)) { return 1; }
+        if (new Date(x.date) < new Date(y.date)) { return -1; }
         return 0;
       })];
     return futureHolidays.map(holiday => ({
