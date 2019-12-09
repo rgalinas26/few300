@@ -1,1 +1,11 @@
-<p>dashboard works!</p>
+<h4>Here are your recipients who should recieve gifts for an upcoming holiday</h4>
+
+<div *ngFor="let r of recipients$ | async">
+  <h6>{{r.holiday}}</h6>
+  <ul>
+    <li *ngFor="let p of r.recipients">
+      <span>{{p.name}}</span>
+    </li>
+  </ul>
+
+</div>

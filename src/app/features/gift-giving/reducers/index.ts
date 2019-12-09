@@ -8,6 +8,7 @@ import * as fromHolidayListControlModels from '../models/list-controls';
 import * as moment from 'moment';
 
 import { ActionReducerMap, createFeatureSelector, createSelector, createReducer } from '@ngrx/store';
+import { DashboardModel } from '../models/Dashboard';
 
 export interface GiftGivingState {
   holidays: fromHolidays.HolidayState;
@@ -138,8 +139,33 @@ export const selectRecipientModel = createSelector(
             id: h.id,
             description: h.name + ' (' + moment(h.date).format('MMMM Do, YYYY') + ')'
           }))
-
       } as fromRecipientModels.RecipientListModel;
     });
   }
 );
+
+const currentDate = new Date();
+
+export const selectDashboardModel = createSelector(
+  selectHolidayModelRaw,
+  selectRecipientModel,
+  (holidays, recipients) => {
+    const futureHolidays = [...holidays.holidays.filter(holiday => new Date(holiday.date) >= currentDate)
+      .sort((x, y) => {
+        if (new Date(x.date) > new Date(y.date)) { return 1; }
+        if (new Date(x.date) < new Date(y.date)) { return 1; }
+        return 0;
+      })];
+    return futureHolidays.map(holiday => ({
+      holidayId: holiday.id,
+      holiday: holiday.name + ' (' + moment(holiday.date).format('MMMM Do, YYYY') + ')',
+      recipients: getCelebratingRecipients(holiday.id, recipients)
+    } as DashboardModel)
+    );
+  }
+);
+
+function getCelebratingRecipients(holidayId: string, recipients: fromRecipientModels.RecipientListModel[]) {
+  const celebratingRecipients = recipients.filter(recipient => recipient.holidays.some(holiday => holiday.id === holidayId));
+  return celebratingRecipients.map((r) => ({ id: r.id, name: r.name }));
+}
